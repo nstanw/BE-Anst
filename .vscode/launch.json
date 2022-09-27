@@ -13,8 +13,8 @@
             // ],
             "program": "${workspaceFolder}\\index.js",
             "restart": true,
-            "runtimeExecutable": "nodemon",
-            "console": "integratedTerminal"
+            // "runtimeExecutable": "nodemon",
+            // "console": "integratedTerminal"
         }
     ]
 }
