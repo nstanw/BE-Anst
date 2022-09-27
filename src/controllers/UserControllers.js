@@ -34,6 +34,16 @@ exports.updateUser = function (req, res, next) {
   return res.send('Succesfully saved.');
  })
 };
+exports.updateImage = function (req, res, next) {
+  const filter = {
+    _id: '633267ace2371d4648af00aa',
+  };
+  const update = req.body
+ const  t =  User.findOneAndUpdate(filter, update,{upsert: false}, (err, result) => {
+  if (err) return res.send(500, {error: err});
+  return res.send('Succesfully saved.');
+ })
+};
 exports.getUser = function (req, res, next) {
   const filter = {
     _id: '633267ace2371d4648af00aa',
@@ -42,6 +52,18 @@ exports.getUser = function (req, res, next) {
   if (err) return res.send(500, {error: err});
   return res.send(result);
  })
+};
+exports.postAvatar = function (req, res, next) {
+  const filter = {
+    _id: '633267ace2371d4648af00aa',
+  }; 
+  const update = {
+    image : req.body.image
+  }
+  User.findOneAndUpdate(filter, update,{upsert: false}, (err, result) => {
+    if (err) return res.send(500, {error: err});
+    return res.send('Succesfully saved.');
+   })
 };
 
 // exports.register = function (req, res, next) {
