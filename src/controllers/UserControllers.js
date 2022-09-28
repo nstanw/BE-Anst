@@ -62,8 +62,27 @@ exports.postAvatar = function (req, res, next) {
   }
   User.findOneAndUpdate(filter, update,{upsert: false}, (err, result) => {
     if (err) return res.send(500, {error: err});
-    return res.send('Succesfully saved.');
+    return res.send(' image Succesfully saved.');
    })
+};
+exports.UpdateVideo = function (req, res, next) {
+  const filter = {
+    _id: '633267ace2371d4648af00aa',
+  }; 
+  User.findById(filter).then(Use => {
+    Use.video = req.body.video
+    return Use.save();
+  })
+  .then( result => {
+    console.log("Update link Video",result);
+    res.send({result : result});
+  })
+  .catch(err => console.log(err))
+
+  // User.findOneAndUpdate(filter, update,{upsert: false}, (err, result) => {
+  //   if (err) return res.send(500, {error: err});
+  //   return res.send(' video Succesfully saved.');
+  //  })
 };
 
 // exports.register = function (req, res, next) {

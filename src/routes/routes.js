@@ -1,10 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const {register,updateUser,getUser,postAvatar} = require('../controllers/UserControllers')
+const {register,updateUser,getUser,postAvatar,UpdateVideo} = require('../controllers/UserControllers')
 const {UserValidator} = require('../validators/validator')
 const {addTask, getTask, deleteTask} = require('../controllers/TaskControllers')
 
 // router.post('/register', UserValidator, register)
+router.post('/updatevideo', UpdateVideo)
 router.post('/postAvatar', postAvatar)
 router.get('/getUser', getUser)
 router.post('/register', register )
