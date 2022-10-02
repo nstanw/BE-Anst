@@ -2,9 +2,11 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
-const routes = require('./src/routes/routes');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const flash = require('connect-flash');
+
+
 
 const app = express();
 const PORT = 3333;
@@ -20,12 +22,11 @@ db.on('error', (err) => {
 });
 
 app.use(cors());
+app.use(flash());
 
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(expressValidator());
-
-app.use('/', routes);
 
 app.listen(PORT, () => {
   console.log('Server started on http://localhost:' + PORT);

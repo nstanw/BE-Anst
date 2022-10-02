@@ -17,6 +17,15 @@ exports.getTask = function (req, res, next) {
     res.json(result);
   });
 };
+exports.getTaskViaDay = function (req, res, next) {
+  Task.find({}, (err, result) => {
+    if (err) {
+      return res.json({ err });
+    }
+    res.json(result);
+    console.log(result);
+  });
+};
 
 exports.deleteTask = function (req, res, next) {
   Task.remove({ effective: req.body.effective }, (err, result) => {
