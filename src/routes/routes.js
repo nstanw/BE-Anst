@@ -3,10 +3,12 @@ const router = express.Router()
 const { register, updateUser, getUser, postAvatar, UpdateVideo } = require('../controllers/UserControllers')
 const { addTask, getTask, deleteTask } = require('../controllers/TaskControllers')
 const authRoute = require('./authRoute')
+const userRoute = require('./userRoute')
 
 // router.post('/register', UserValidator, register)
 
 router.use('/auth', authRoute)
+router.use('/user', userRoute)
 router.post('/updatevideo', UpdateVideo)
 router.post('/postAvatar', postAvatar)
 router.get('/getUser', getUser)

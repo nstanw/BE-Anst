@@ -8,7 +8,7 @@ exports.postSignup = (req, res, next) => {
     User.findOne({ email: email })
         .then(userDoc => {
             if (userDoc) {
-                return res.json({ duplicate: true })
+                return res.json({ emailDuplicate: true })
             }
             return bcrypt.hash(password, 12)
                 .then(hashPassword => {
@@ -30,15 +30,16 @@ exports.postLogin = (req, res, next) => {
     User.findOne({ email: email })
         .then(user => {
             if (!user) {
-                console.log("User not found");
-                return res.send("no user");
+                console.log("email not found");
+                return res.send({ email: false });
             }
             bcrypt.compare(password, user.password)
                 .then(doMatch => {
                     if (doMatch) {
-                        // req.session.isLoggedIn = true;
+                        console.log(req.session);
+                        req.session.isLoggedIn = true;
                         req.session.user = user;
-                        res.send({ password: true });
+                        res.send({ isLoggedIn: true });
                         return req.session.save(err => {
                             console.log(err);
                         });
