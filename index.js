@@ -49,7 +49,7 @@ app.use(
   multer({
     storage: fileStorage,
     fileFilter: fileFilter,
-  }).single('image')
+  }).single('avatar')
 );
 
 const PORT = 3333;

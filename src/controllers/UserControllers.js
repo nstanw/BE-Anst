@@ -65,7 +65,7 @@ exports.getUser = function (req, res, next) {
     return res.send(result);
   });
 };
-// post avatar link
+// post study image link
 exports.postAvatar = function (req, res, next) {
   const filter = {
     _id: '633267ace2371d4648af00aa',
@@ -80,7 +80,6 @@ exports.postAvatar = function (req, res, next) {
 };
 
 //Upload avatar from file
-
 exports.postUploadAvatar = (req, res, next) => {
   const updateImage = req.file;
   console.log(updateImage);
