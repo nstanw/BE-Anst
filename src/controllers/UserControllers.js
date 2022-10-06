@@ -104,8 +104,37 @@ exports.postUploadAvatar = (req, res, next) => {
   }
   res.status(401).json({ error: 'Please provide an image' });
 };
+exports.postUploadImgStudy = (req, res, next) => {
+  const updateImage = req.file;
+  console.log(updateImage);
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).send({
+      image: updateImage,
+      errorMessage: errors.array()[0].msg,
+      validationErrors: errors.array(),
+    });
+  }
+  if (updateImage) {
+    const newAvatar = 'images/' + updateImage.filename;
+    const filter = {
+      _id: '633267ace2371d4648af00aa',
+    };
+    return User.findOneAndUpdate(
+      filter,
+      { image: newAvatar }, 
+      {new: true},
+    )
+      .then((result) => {
+        console.log('UPDATED postUploadImgStudy');
+        return res.send(result);
+      })
+      .catch((err) => console.log(err));
+  }
+  res.status(401).json({ error: 'Please provide an image' });
+};
 
-exports.UpdateVideo = async   function (req, res, next) {
+exports.UpdateVideo = async function (req, res, next) {
   const filter = {
     _id: '633267ace2371d4648af00aa',
   };
