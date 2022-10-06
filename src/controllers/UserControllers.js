@@ -18,7 +18,6 @@ exports.changeImg = function (req, res, next) {
 
 exports.register = function (req, res, next) {
   const user = new User(req.body);
-
   user.save((err, result) => {
     if (err) {
       return res.json({ err });
@@ -66,16 +65,16 @@ exports.getUser = function (req, res, next) {
   });
 };
 // post study image link
-exports.postAvatar = function (req, res, next) {
+exports.postLinkImageStudy = function (req, res, next) {
   const filter = {
     _id: '633267ace2371d4648af00aa',
   };
   const update = {
     image: req.body.image,
   };
-  User.findOneAndUpdate(filter, update, { upsert: false }, (err, result) => {
+  User.findOneAndUpdate(filter, update, { upsert: true, new: true }, (err, result) => {
     if (err) return res.send(500, { error: err });
-    return res.send(' image Succesfully saved.');
+    return res.send({ result: result });
   });
 };
 
@@ -92,61 +91,43 @@ exports.postUploadAvatar = (req, res, next) => {
     });
   }
   if (updateImage) {
-    const newAvatar = "images/" + updateImage.filename;
-    return User
-      .findOneAndUpdate({ email: 'langthambca@gmail' }, { avatar: newAvatar })
+    const newAvatar = 'images/' + updateImage.filename;
+    return User.findOneAndUpdate(
+      { email: 'langthambca@gmail' },
+      { avatar: newAvatar }
+    )
       .then((result) => {
         console.log('UPDATED PRODUCT!');
-        return  res.send(result);
+        return res.send(result);
       })
       .catch((err) => console.log(err));
   }
-  res.status(401).json({error: 'Please provide an image'});
+  res.status(401).json({ error: 'Please provide an image' });
 };
 
-exports.UpdateVideo = function (req, res, next) {
+exports.UpdateVideo = async   function (req, res, next) {
   const filter = {
     _id: '633267ace2371d4648af00aa',
   };
-  User.findById(filter)
-    .then((Use) => {
-      Use.video = req.body.video;
-      return Use.save();
-    })
-    .then((result) => {
-      console.log('Update link Video', result);
-      res.send({ result: result });
-    })
-    .catch((err) => console.log(err));
+  const url = req.body.video;
+  const checkLinkFull =  url.includes("watch?v=");
+  const checkLinkSort =  url.includes("youtu.be/");
+  let youtubeId = ''
+  if (checkLinkFull) {
+      youtubeId = url.split("watch?v=")[1].split("&")[0];
+      console.log(youtubeId);
+  }
+  if (checkLinkSort) {
+     youtubeId = url.split("youtu.be/")[1].split("&")[0];
+     console.log(youtubeId);
+  }
 
-  // User.findOneAndUpdate(filter, update,{upsert: false}, (err, result) => {
-  //   if (err) return res.send(500, {error: err});
-  //   return res.send(' video Succesfully saved.');
-  //  })
-};
-
-// exports.register = function (req, res, next) {
-//   User.findOne({ email: req.body.email }, (err, user) => {
-//     if (user == null) {
-//       //Kiểm tra xem email đã được sử dụng chưa
-//       bcrypt.hash(req.body.password, 10, function (err, hash) {
-//         //Mã hóa mật khẩu trước khi lưu vào db
-//         if (err) {
-//           return next(err);
-//         }
-//         const user = new User(req.body);
-//         user.role = ['customer']; //sau khi register thì role auto là customer
-//         user.password = hash;
-//         user.password_confirm = hash;
-//         user.save((err, result) => {
-//           if (err) {
-//             return res.json({ err });
-//           }
-//           res.json({ user: result });
-//         });
-//       });
-//     } else {
-//       res.json({ err: 'Email has been used' });
-//     }
-//   });
-// };
+  const update = {
+    video: youtubeId,
+  };
+  console.log(update);
+  let doc = await User.findOneAndUpdate(filter, update, {
+    new: true
+  });
+  return res.send({postLinkVideo: true});
+}
