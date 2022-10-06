@@ -77,6 +77,18 @@ exports.postLinkImageStudy = function (req, res, next) {
     return res.send({ result: result });
   });
 };
+exports.postLinkAvatar = function (req, res, next) {
+  const filter = {
+    _id: '633267ace2371d4648af00aa',
+  };
+  const update = {
+    avatar: req.body.avatar,
+  };
+  User.findOneAndUpdate(filter, update, { upsert: true, new: true }, (err, result) => {
+    if (err) return res.send(500, { error: err });
+    return res.send({ result: result });
+  });
+};
 
 //Upload avatar from file
 exports.postUploadAvatar = (req, res, next) => {

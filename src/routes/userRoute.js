@@ -6,6 +6,7 @@ const router = express.Router();
 
 
 router.post('/uploadAvatar', UserControllers.postUploadAvatar);
+router.post('/postAvatar', UserControllers.postLinkAvatar);
 router.post('/postImg', UserControllers.postUploadImgStudy)
 
 
