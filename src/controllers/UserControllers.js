@@ -56,10 +56,9 @@ exports.updateImage = function (req, res, next) {
   );
 };
 exports.getUser = function (req, res, next) {
-  const filter = {
-    _id: '633267ace2371d4648af00aa',
-  };
-  User.findOne(filter, (err, result) => {
+  const filter = { email: "quhuy1972@gmail.com" };
+  console.log('req.session.user>>>>>',req.session.user);
+  User.find(filter, (err, result) => {
     if (err) return res.send(500, { error: err });
     return res.send(result);
   });
@@ -72,10 +71,15 @@ exports.postLinkImageStudy = function (req, res, next) {
   const update = {
     image: req.body.image,
   };
-  User.findOneAndUpdate(filter, update, { upsert: true, new: true }, (err, result) => {
-    if (err) return res.send(500, { error: err });
-    return res.send({ result: result });
-  });
+  User.findOneAndUpdate(
+    filter,
+    update,
+    { upsert: true, new: true },
+    (err, result) => {
+      if (err) return res.send(500, { error: err });
+      return res.send({ result: result });
+    }
+  );
 };
 exports.postLinkAvatar = function (req, res, next) {
   const filter = {
@@ -84,10 +88,15 @@ exports.postLinkAvatar = function (req, res, next) {
   const update = {
     avatar: req.body.avatar,
   };
-  User.findOneAndUpdate(filter, update, { upsert: true, new: true }, (err, result) => {
-    if (err) return res.send(500, { error: err });
-    return res.send({ result: result });
-  });
+  User.findOneAndUpdate(
+    filter,
+    update,
+    { upsert: true, new: true },
+    (err, result) => {
+      if (err) return res.send(500, { error: err });
+      return res.send({ result: result });
+    }
+  );
 };
 
 //Upload avatar from file
@@ -132,11 +141,7 @@ exports.postUploadImgStudy = (req, res, next) => {
     const filter = {
       _id: '633267ace2371d4648af00aa',
     };
-    return User.findOneAndUpdate(
-      filter,
-      { image: newAvatar }, 
-      {new: true},
-    )
+    return User.findOneAndUpdate(filter, { image: newAvatar }, { new: true })
       .then((result) => {
         console.log('UPDATED postUploadImgStudy');
         return res.send(result);
@@ -151,16 +156,16 @@ exports.UpdateVideo = async function (req, res, next) {
     _id: '633267ace2371d4648af00aa',
   };
   const url = req.body.video;
-  const checkLinkFull =  url.includes("watch?v=");
-  const checkLinkSort =  url.includes("youtu.be/");
-  let youtubeId = ''
+  const checkLinkFull = url.includes('watch?v=');
+  const checkLinkSort = url.includes('youtu.be/');
+  let youtubeId = '';
   if (checkLinkFull) {
-      youtubeId = url.split("watch?v=")[1].split("&")[0];
-      console.log(youtubeId);
+    youtubeId = url.split('watch?v=')[1].split('&')[0];
+    console.log(youtubeId);
   }
   if (checkLinkSort) {
-     youtubeId = url.split("youtu.be/")[1].split("&")[0];
-     console.log(youtubeId);
+    youtubeId = url.split('youtu.be/')[1].split('&')[0];
+    console.log(youtubeId);
   }
 
   const update = {
@@ -168,7 +173,7 @@ exports.UpdateVideo = async function (req, res, next) {
   };
   console.log(update);
   let doc = await User.findOneAndUpdate(filter, update, {
-    new: true
+    new: true,
   });
-  return res.send({postLinkVideo: true});
-}
+  return res.send({ postLinkVideo: true });
+};

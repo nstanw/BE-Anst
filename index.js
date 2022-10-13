@@ -10,6 +10,13 @@ const multer = require('multer');
 
 const indexRoute = require('./src/routes/routes');
 const User = require('./src/models/UserModels');
+
+
+
+const dotenv =  require('dotenv')
+dotenv.config()
+
+
 const uri =
   'mongodb+srv://beestudy:accban123@bebeestudy.rqeauyk.mongodb.net/?retryWrites=true&w=majority';
 // const uri = "mongodb://0.0.0.0:27017"
@@ -70,6 +77,9 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: store,
+    cookie: {
+    isLoggedIn : true
+    }
   })
 );
 
