@@ -14,7 +14,7 @@ router.post('/login', User_Controller.login )
 // Protect all the routes affter this middleware
 router.use(User_Controller.protect);
 
-// router.post('/register', UserValidator, register)
+router.post('/register', register)
 
 router.use('/auth', authRoute)
 router.use('/user', userRoute)

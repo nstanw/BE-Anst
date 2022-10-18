@@ -27,7 +27,7 @@ exports.register = function (req, res, next) {
 };
 exports.updateUser = function (req, res, next) {
   const filter = {
-    _id: '633267ace2371d4648af00aa',
+    email: req.user.email,
   };
   const update = req.body;
   const t = User.findOneAndUpdate(
@@ -42,7 +42,7 @@ exports.updateUser = function (req, res, next) {
 };
 exports.updateImage = function (req, res, next) {
   const filter = {
-    _id: '633267ace2371d4648af00aa',
+    email: req.user.email,
   };
   const update = req.body;
   const t = User.findOneAndUpdate(
@@ -56,8 +56,7 @@ exports.updateImage = function (req, res, next) {
   );
 };
 exports.getUser = function (req, res, next) {
-  const filter = { email: "quhuy1972@gmail.com" };
-  console.log('req.session.user>>>>>',req.session.user);
+  const filter = { email: req.user.email };
   User.find(filter, (err, result) => {
     if (err) return res.send(500, { error: err });
     return res.send(result);
@@ -65,8 +64,9 @@ exports.getUser = function (req, res, next) {
 };
 // post study image link
 exports.postLinkImageStudy = function (req, res, next) {
+  console.log('postLinkImageStudy req.headers.authentication: ', req.headers.authentication);
   const filter = {
-    _id: '633267ace2371d4648af00aa',
+    email: req.user.email,
   };
   const update = {
     image: req.body.image,
@@ -83,7 +83,7 @@ exports.postLinkImageStudy = function (req, res, next) {
 };
 exports.postLinkAvatar = function (req, res, next) {
   const filter = {
-    _id: '633267ace2371d4648af00aa',
+    email: req.user.email,
   };
   const update = {
     avatar: req.body.avatar,
@@ -114,7 +114,7 @@ exports.postUploadAvatar = (req, res, next) => {
   if (updateImage) {
     const newAvatar = 'images/' + updateImage.filename;
     return User.findOneAndUpdate(
-      { email: 'langthambca@gmail' },
+      {  email: req.user.email,},
       { avatar: newAvatar }
     )
       .then((result) => {
@@ -139,7 +139,7 @@ exports.postUploadImgStudy = (req, res, next) => {
   if (updateImage) {
     const newAvatar = 'images/' + updateImage.filename;
     const filter = {
-      _id: '633267ace2371d4648af00aa',
+      email: req.user.email,
     };
     return User.findOneAndUpdate(filter, { image: newAvatar }, { new: true })
       .then((result) => {
@@ -152,8 +152,10 @@ exports.postUploadImgStudy = (req, res, next) => {
 };
 
 exports.UpdateVideo = async function (req, res, next) {
+  console.log(req.user.email);
+  console.log( req.body.video);
   const filter = {
-    _id: '633267ace2371d4648af00aa',
+    email: req.user.email,
   };
   const url = req.body.video;
   const checkLinkFull = url.includes('watch?v=');

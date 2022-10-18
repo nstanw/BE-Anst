@@ -10,7 +10,11 @@ exports.addTask = function (req, res, next) {
   });
 };
 exports.getTask = function (req, res, next) {
-  Task.find({}, (err, result) => {
+  const filter = {
+    email : req.user.email
+  }
+  console.log("filter>>>>>>>>>>>",filter);
+  Task.find(filter, (err, result) => {
     if (err) {
       return res.json({ err });
     }
@@ -35,5 +39,3 @@ exports.deleteTask = function (req, res, next) {
     res.json({ mess: 'Delete success', result: result });
   });
 };
-
-//  https://viblo.asia/p/bat-dau-nodejs-mongoose-api-authentication-crud-cho-nguoi-moi-hoc-Eb85oa66Z2G
