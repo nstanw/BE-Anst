@@ -59,7 +59,7 @@ exports.getUser = function (req, res, next) {
   const filter = { email: req.user.email };
   User.find(filter, (err, result) => {
     if (err) return res.send(500, { error: err });
-    return res.send(result);
+    return res.send(result[0]);
   });
 };
 // post study image link

@@ -11,6 +11,7 @@ const TaskSchema = new Schema(
     effective: { type: Number, required: true },
     skills: { type: String, required: true, defaultValue: 'no' },
     notes: { type: String },
+    ghiChu: { type: String },
     labelsTime: { type: String },
   },
   { timestamps: true }

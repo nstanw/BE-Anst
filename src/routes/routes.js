@@ -12,7 +12,7 @@ router.post('/signup', User_Controller.signup )
 router.post('/login', User_Controller.login )
 
 // Protect all the routes affter this middleware
-router.use(User_Controller.protect);
+// router.use(User_Controller.protect);
 
 router.post('/register', register)
 
