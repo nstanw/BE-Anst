@@ -13,7 +13,6 @@ exports.getTask = function (req, res, next) {
   const filter = {
     email : req.user.email
   }
-  console.log("filter>>>>>>>>>>>",filter);
   Task.find(filter, (err, result) => {
     if (err) {
       return res.json({ err });
